@@ -154,9 +154,9 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 		}
 		product.setSizes(sizes);
 		product.setCreateDate(new Date());
-		product.setCategory(categoryRepository.findById(product.getCategory().getId()).get());
-		product.setBrand(brandRepository.findById(product.getBrand().getId()).get());
-		product.setSupplier(supplierRepository.findById(product.getSupplier().getId()).get());
+//		product.setCategory(categoryRepository.findById(product.getCategory().getId()).get());
+//		product.setBrand(brandRepository.findById(product.getBrand().getId()).get());
+//		product.setSupplier(supplierRepository.findById(product.getSupplier().getId()).get());
 		entityManager.persist(product);
 
 	}
