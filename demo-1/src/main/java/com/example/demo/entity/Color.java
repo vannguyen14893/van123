@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class Color implements Serializable {
 
@@ -17,12 +19,18 @@ public class Color implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column(name="name_color")
+	@Column(name = "name_color")
 	private String nameColor;
 	private Integer total;
+//	@ManyToOne
+//	@JoinColumn(name="product_id")
+//	@JsonIgnoreProperties("colors")
+//    private Product product;
 	@ManyToOne
-	@JoinColumn(name="product_id")
-    private Product product;
+	@JoinColumn(name = "size_id")
+	@JsonIgnoreProperties("colors")
+	private Size size;
+
 	public Integer getId() {
 		return id;
 	}
@@ -38,20 +46,43 @@ public class Color implements Serializable {
 	public void setNameColor(String nameColor) {
 		this.nameColor = nameColor;
 	}
-   
-	public Product getProduct() {
-		return product;
-	}
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+//	public Product getProduct() {
+//		return product;
+//	}
+//
+//	public void setProduct(Product product) {
+//		this.product = product;
+//	}
 
 	public Integer getTotal() {
 		return total;
 	}
 
+	public Size getSize() {
+		return size;
+	}
+
+	public void setSize(Size size) {
+		this.size = size;
+	}
+
 	public void setTotal(Integer total) {
+		this.total = total;
+	}
+
+	public Color(Integer id, String nameColor, Integer total, Size size) {
+		super();
+		
+		this.nameColor = nameColor;
+		this.total = total;
+		this.size = size;
+	}
+
+	public Color(Integer id, String nameColor, Integer total) {
+		super();
+		this.id = id;
+		this.nameColor = nameColor;
 		this.total = total;
 	}
 

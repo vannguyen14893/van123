@@ -10,7 +10,8 @@ public class FilterKeyword {
 	private String nameColor;
 	private int pageSize = 5;
 	private int page = 1;
-
+    private String sizeName;
+    private String createDate;
 	public String getKeyword() {
 		return keyword;
 	}
@@ -35,10 +36,18 @@ public class FilterKeyword {
 		this.price = price;
 	}
 
+	public String getSizeName() {
+		return sizeName;
+	}
+
+	public void setSizeName(String sizeName) {
+		this.sizeName = sizeName;
+	}
+
 	public String getDescription() {
 		return description;
 	}
-
+   
 	public void setDescription(String description) {
 		this.description = description;
 	}
@@ -65,6 +74,14 @@ public class FilterKeyword {
 
 	public void setNameColor(String nameColor) {
 		this.nameColor = nameColor;
+	}
+
+	public String getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(String createDate) {
+		this.createDate = createDate;
 	}
 
 	public int getPageSize() {
