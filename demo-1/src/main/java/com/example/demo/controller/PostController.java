@@ -22,10 +22,12 @@ public class PostController {
 	public List<Post> getAll(@PathVariable("userId") Integer userId) {
 		return postServiceImpl.getAllByUserId(userId);
 	}
+
 	@GetMapping(value = "/posts/product/{productId}")
 	public List<Post> getAllByProductId(@PathVariable("productId") Integer productId) {
 		return postServiceImpl.getAllByProductId(productId);
 	}
+
 	@PostMapping(value = "/posts/{userId}")
 	public void addPost(@PathVariable("userId") Integer userId, @RequestBody Post post) {
 		postServiceImpl.addPost(userId, post);

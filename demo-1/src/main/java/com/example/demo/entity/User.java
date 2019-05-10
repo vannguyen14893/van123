@@ -16,6 +16,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
@@ -39,16 +40,20 @@ public class User implements Serializable {
 	private int status;
 
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinTable(name = "user_role", joinColumns = {
-			@JoinColumn(name = "user_id") }, inverseJoinColumns = {
-					@JoinColumn(name = "role_id") })
+	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "role_id") })
 	@JsonIgnoreProperties("users")
-	private List<Role> roles=new ArrayList<Role>();
+	private List<Role> roles = new ArrayList<Role>();
+	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinTable(name = "user_group", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
+			@JoinColumn(name = "group_id") })
+	@JsonIgnoreProperties("users")
+	private List<Group> groups = new ArrayList<Group>();
 	@OneToMany(mappedBy = "postedBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties("postedBy")
+	@JsonIgnore
 	private List<Post> posts;
 	@OneToMany(mappedBy = "commentBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties("commentBy")
+	@JsonIgnore
 	private List<PostComment> postComments;
 
 	public Integer getUserId() {
@@ -131,4 +136,12 @@ public class User implements Serializable {
 		this.roles = roles;
 	}
 
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
+	}
+	
 }
