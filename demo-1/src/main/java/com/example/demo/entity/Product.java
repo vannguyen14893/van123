@@ -39,6 +39,7 @@ public class Product implements Serializable {
 	@Column(name="end_date")
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
+
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("product")
 	private List<Size> sizes;
@@ -57,6 +58,9 @@ public class Product implements Serializable {
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("product")
 	private List<Inventory> inventorys;
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonIgnoreProperties("product")
+	private List<Post> posts;
 	public Integer getId() {
 		return id;
 	}
@@ -146,6 +150,7 @@ public class Product implements Serializable {
 		this.createDate = createDate;
 	}
 
+
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -160,6 +165,15 @@ public class Product implements Serializable {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+   
+	public List<Post> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<Post> posts) {
+		this.posts = posts;
 	}
 
 	public Product(Integer id, String name, Double price) {

@@ -16,12 +16,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.example.demo.entity.Color;
 import com.example.demo.entity.Product;
 import com.example.demo.entity.Size;
@@ -80,7 +78,6 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 			predicates.add(cb.equal(root.get("name"), filterKeyword.getName()));
 
 		}
-
 		if (StringUtils.isNotBlank(filterKeyword.getCreateDate())) {
 			String dateFormat = filterKeyword.getCreateDate();
 			try {
@@ -108,7 +105,9 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 
 		TypedQuery<Product> typedQuery = entityManager.createQuery(query.select(root))
 				.setMaxResults(filterKeyword.getPageSize())
+
 				.setFirstResult((filterKeyword.getPage() - 1) * filterKeyword.getPageSize());
+
 		return typedQuery.getResultList();
 
 	}
@@ -146,9 +145,11 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 		}
 		product.setSizes(sizes);
 		product.setCreateDate(new Date());
+
 		product.setCategory(categoryRepository.findById(product.getCategory().getId()).get());
 		product.setBrand(brandRepository.findById(product.getBrand().getId()).get());
 		product.setSupplier(supplierRepository.findById(product.getSupplier().getId()).get());
+
 		entityManager.persist(product);
 
 	}
@@ -167,11 +168,13 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 		String myDate = sdf.format(date);
 		String stDate = sdf.format(startDate);
 		String edDate = sdf.format(endDate);
-		if (stDate.compareTo(myDate) >= 0) {
-			if (stDate.compareTo(edDate) >= 0) {
-				return false;
+		if (startDate != null || endDate != null) {
+			if (stDate.compareTo(myDate) >= 0) {
+				if (stDate.compareTo(edDate) >= 0) {
+					return false;
+				}
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}

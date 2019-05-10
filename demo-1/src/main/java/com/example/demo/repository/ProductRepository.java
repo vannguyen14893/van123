@@ -9,5 +9,5 @@ import com.example.demo.repository.customer.ProductRepositoryCutomer;
 public interface ProductRepository
 		extends JpaRepository<Product, Integer>, ProductRepositoryCutomer, JpaSpecificationExecutor<Product> {
 	public Product findByName(String name);
-	
+
 }
