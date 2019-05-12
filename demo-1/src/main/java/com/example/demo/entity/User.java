@@ -15,6 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -38,7 +41,9 @@ public class User implements Serializable {
 	private String phone;
 
 	private int status;
-
+    private String avatar;
+    @Transient
+    private MultipartFile file;
 	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "role_id") })
@@ -55,7 +60,10 @@ public class User implements Serializable {
 	@OneToMany(mappedBy = "commentBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
 	private List<PostComment> postComments;
-
+	@Transient
+	private Integer[] roleId; 
+	@Transient
+	private Integer[] groupId; 
 	public Integer getUserId() {
 		return userId;
 	}
@@ -143,5 +151,39 @@ public class User implements Serializable {
 	public void setGroups(List<Group> groups) {
 		this.groups = groups;
 	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public MultipartFile getFile() {
+		return file;
+	}
+
+	public void setFile(MultipartFile file) {
+		this.file = file;
+	}
+
+	public Integer[] getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Integer[] roleId) {
+		this.roleId = roleId;
+	}
+
+	public Integer[] getGroupId() {
+		return groupId;
+	}
+
+	public void setGroupId(Integer[] groupId) {
+		this.groupId = groupId;
+	}
+
+	
 	
 }

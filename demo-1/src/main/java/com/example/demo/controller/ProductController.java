@@ -40,7 +40,7 @@ public class ProductController {
 		return new ResponseEntity<String>(Contans.ADD_SUCCESS,HttpStatus.OK);
 
 	}
-
+	
 	@PostMapping(value = "/validate/name")
 	public ResponseEntity<String> validateProduct(@RequestBody Product product) {
 		if (productServiceImpl.checkProductName(product.getName())) {

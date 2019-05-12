@@ -4,9 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -38,16 +35,49 @@ public class UserServiceImpl {
 
 	public void addUser(User user) {
 		List<User> users = new ArrayList<User>();
-		User user2 = new User();
-		users.add(user2);
-		user2.setEmail(user.getEmail());
-		user2.setFullName(user.getFullName());
-		user2.setPassword(user.getPassword());
-		user2.setPhone(user.getPhone());
-		user2.setStatus(user.getStatus());
-		user2.setUserName(user.getUserName());
-		user2.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
-		userRepository.save(user2);
+		users.add(user);
+		user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+		userRepository.save(user);
+	}
+
+	public void addUserListRole(User user) {
+		List<Role> roles = new ArrayList<Role>();
+		for (int i = 0; i < user.getRoleId().length; i++) {
+			roles.add(roleRepository.getOne(user.getRoleId()[i]));
+		}
+		List<Group> groups = new ArrayList<Group>();
+		for (int i = 0; i < user.getGroupId().length; i++) {
+			groups.add(groupRepository.getOne(user.getGroupId()[i]));
+		}
+		user.setGroups(groups);
+		user.setRoles(roles);
+		userRepository.save(user);
+	}
+
+	public void updateUser(User user2) {
+		User user = userRepository.findById(user2.getUserId()).get();
+		if (user != null) {
+			user.setUserId(user2.getUserId());
+			user.setEmail(user2.getEmail());
+			user.setFullName(user2.getFullName());
+			user.setPassword(user2.getPassword());
+			user.setPhone(user2.getPhone());
+			user.setUserName(user2.getUserName());
+			user.setStatus(user2.getStatus());
+			user.getRoles().clear();
+			user.getGroups().clear();
+			List<Role> roles = user2.getRoles();
+			for (int i = 0; i < user2.getRoleId().length; i++) {
+				roles.add(roleRepository.getOne(user2.getRoleId()[i]));
+			}
+			List<Group> groups = user2.getGroups();
+			for (int i = 0; i < user2.getGroupId().length; i++) {
+				groups.add(groupRepository.getOne(user2.getGroupId()[i]));
+			}
+			user.getRoles().addAll(roles);
+			user.getGroups().addAll(groups);
+			userRepository.save(user);
+		}
 	}
 
 	public void addUserRole(Integer userId, Integer[] roleId) {

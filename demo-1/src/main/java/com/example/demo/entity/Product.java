@@ -16,6 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -61,6 +62,8 @@ public class Product implements Serializable {
 	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("product")
 	private List<Post> posts;
+	@Transient
+	private Integer[] sizeId;
 	public Integer getId() {
 		return id;
 	}
@@ -174,6 +177,14 @@ public class Product implements Serializable {
 
 	public void setPosts(List<Post> posts) {
 		this.posts = posts;
+	}
+
+	public Integer[] getSizeId() {
+		return sizeId;
+	}
+
+	public void setSizeId(Integer[] sizeId) {
+		this.sizeId = sizeId;
 	}
 
 	public Product(Integer id, String name, Double price) {

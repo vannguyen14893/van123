@@ -22,10 +22,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.entity.Color;
 import com.example.demo.entity.Product;
+import com.example.demo.entity.Role;
 import com.example.demo.entity.Size;
 import com.example.demo.repository.BrandRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
+import com.example.demo.repository.SizeRepository;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.repository.customer.ProductRepositoryCutomer;
 import com.example.demo.utils.Contans;
@@ -39,6 +41,8 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 
 	@Autowired
 	private ProductRepository productRepository;
+	@Autowired
+	private SizeRepository sizeRepository;
 	@Autowired
 	private BrandRepository brandRepository;
 	@Autowired
@@ -62,8 +66,8 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Product> query = cb.createQuery(Product.class);
 		Root<Product> root = query.from(Product.class);
-		Join<Product, Size> sizes = root.join("sizes");
-		Join<Size, Color> colors = sizes.join("colors");
+		//Join<Product, Size> sizes = root.join("sizes");
+		//Join<Size, Color> colors = sizes.join("colors");
 		List<Predicate> predicates = new ArrayList<Predicate>();
 		if (!StringUtils.isNotBlank(filterKeyword.getKeyword())) {
 			query.orderBy(cb.asc(root.get("id")));
@@ -94,18 +98,15 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 		if (StringUtils.isNotBlank(filterKeyword.getDescription())) {
 			predicates.add(cb.equal(root.get("description"), filterKeyword.getDescription()));
 		}
-		if (filterKeyword.getNameColor() != null) {
-			predicates.add(cb.equal(colors.get("nameColor"), filterKeyword.getNameColor()));
-		}
-		if (filterKeyword.getSizeName() != null) {
-			predicates.add(cb.equal(sizes.get("sizeName"), filterKeyword.getSizeName()));
-		}
-
+//		if (filterKeyword.getNameColor() != null) {
+//			predicates.add(cb.equal(colors.get("nameColor"), filterKeyword.getNameColor()));
+//		}
+//		if (filterKeyword.getSizeName() != null) {
+//			predicates.add(cb.equal(sizes.get("sizeName"), filterKeyword.getSizeName()));
+//		}
 		query.where(predicates.toArray(new Predicate[] {}));
-
 		TypedQuery<Product> typedQuery = entityManager.createQuery(query.select(root))
 				.setMaxResults(filterKeyword.getPageSize())
-
 				.setFirstResult((filterKeyword.getPage() - 1) * filterKeyword.getPageSize());
 
 		return typedQuery.getResultList();
