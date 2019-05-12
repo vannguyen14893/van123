@@ -34,8 +34,6 @@ public class UserServiceImpl {
 	}
 
 	public void addUser(User user) {
-		List<User> users = new ArrayList<User>();
-		users.add(user);
 		user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
 		userRepository.save(user);
 	}
