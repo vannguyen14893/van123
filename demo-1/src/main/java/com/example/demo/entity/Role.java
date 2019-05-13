@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -22,11 +23,12 @@ public class Role implements Serializable{
 	@Column(name = "role_id")
 	private Integer roleId;
 	private String name;
-
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("roles")
-	private List<User> users;
-
+	private List<User> users=new ArrayList<User>();
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("roles")
+	private List<Permission> permissions=new ArrayList<Permission>();
 	public Integer getRoleId() {
 		return roleId;
 	}
@@ -49,6 +51,14 @@ public class Role implements Serializable{
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public List<Permission> getPermissions() {
+		return permissions;
+	}
+
+	public void setPermissions(List<Permission> permissions) {
+		this.permissions = permissions;
 	}
 
 	public Role(Integer roleId, String name) {

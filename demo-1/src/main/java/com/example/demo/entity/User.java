@@ -44,22 +44,22 @@ public class User implements Serializable {
     private String avatar;
     @Transient
     private MultipartFile file;
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH })
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "role_id") })
 	@JsonIgnoreProperties("users")
 	private List<Role> roles = new ArrayList<Role>();
-	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REFRESH })
 	@JoinTable(name = "user_group", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = {
 			@JoinColumn(name = "group_id") })
 	@JsonIgnoreProperties("users")
 	private List<Group> groups = new ArrayList<Group>();
 	@OneToMany(mappedBy = "postedBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("user")
-	private List<Post> posts;
+	private List<Post> posts=new ArrayList<Post>();
 	@OneToMany(mappedBy = "commentBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore
-	private List<PostComment> postComments;
+	private List<PostComment> postComments=new ArrayList<PostComment>();
 	@Transient
 	private Integer[] roleId; 
 	@Transient

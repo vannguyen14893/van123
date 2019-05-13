@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public class Post implements Serializable {
 	private Date postedDate;
 	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("post")
-	private List<PostComment> postComments;
+	private List<PostComment> postComments=new ArrayList<PostComment>();
 	@ManyToOne
 	@JoinColumn(name="product_id")	
 	@JsonIgnoreProperties("posts")

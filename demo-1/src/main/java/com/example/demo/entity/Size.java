@@ -1,6 +1,7 @@
 package com.example.demo.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -32,7 +33,7 @@ public class Size implements Serializable {
 	private Product product;
 	@OneToMany(mappedBy = "size", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnoreProperties("size")
-	private List<Color> colors;
+	private List<Color> colors=new ArrayList<Color>();
 	public Integer getId() {
 		return id;
 	}
