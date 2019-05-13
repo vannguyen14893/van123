@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +18,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.GroupRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.UserFilterKeyword;
 
 @Service
 @Transactional
@@ -24,6 +29,38 @@ public class UserServiceImpl {
 	private RoleRepository roleRepository;
 	@Autowired
 	private GroupRepository groupRepository;
+	@PersistenceContext
+	EntityManager entityManager;
+	public static final String LIST = "select u from User u ";
+	public static final String SORT = "ORDER BY ";
+
+	public List<User> fillAll(UserFilterKeyword filter) {
+		StringBuilder builder = new StringBuilder(LIST);
+		if (StringUtils.isNotBlank(filter.getName())) {
+			builder.append("join u.roles r ");
+		}
+		builder.append(" WHERE 1=1 ");
+		if (StringUtils.isNotBlank(filter.getUserName())) {
+			builder.append(" AND u.userName = '" + filter.getUserName() + "'");
+		}
+		if (filter.getStatus() != null) {
+			builder.append(" AND u.status = '" + filter.getStatus() + "'");
+		}
+		if (StringUtils.isNotBlank(filter.getName())) {
+
+			builder.append(" AND r.name = '" + filter.getName() + "' ");
+		}
+		if (StringUtils.isNotBlank(filter.getFullName())) {
+			builder.append(" AND LOWER(u.email) like '%" + filter.getFullName().toLowerCase() + "%' ");
+		}
+		if (!StringUtils.isNotBlank(filter.getSortName())) {
+			builder.append(SORT + "u.userId");
+		} else {
+			builder.append(SORT + "u." + filter.getSortName() + "");
+			builder.append(filter.getSort() ? " ASC" : " DESC");
+		}
+		return entityManager.createQuery(builder.toString(), User.class).getResultList();
+	}
 
 	public List<User> getAll(Integer roleId) {
 		return userRepository.findByRoles_RoleId(roleId);

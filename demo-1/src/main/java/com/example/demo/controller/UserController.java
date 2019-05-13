@@ -18,22 +18,23 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.entity.User;
 import com.example.demo.service.impl.UserServiceImpl;
 import com.example.demo.utils.Contans;
+import com.example.demo.utils.UserFilterKeyword;
 
 @RestController
 public class UserController {
 
 	@Autowired
 	private UserServiceImpl userServiceImpl;
-
+  
 	@PostMapping(value = "/user")
 	public ResponseEntity<String> addUser(@RequestBody User user) {
 		userServiceImpl.addUser(user);
 		return new ResponseEntity<String>(Contans.ADD_SUCCESS_USER, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/user/role/{roleId}")
-	public List<User> getAll(@PathVariable("roleId") Integer roleId) {
-		return userServiceImpl.getAll(roleId);
+	@PostMapping(value = "/users")
+	public List<User> getAll(@RequestBody UserFilterKeyword filter) {
+		return userServiceImpl.fillAll(filter);
 	}
 
 	@GetMapping(value = "/user/group/{groupId}")
@@ -67,7 +68,7 @@ public class UserController {
 				builder.append(fileName);
 				String path = request.getServletContext().getRealPath("") + Contans.UPLOAD_PATH + File.separator
 						+ builder;
-				//Contans.saveFile(file.getInputStream(), path);
+				Contans.saveFile(file.getInputStream(), path);
 			}
 			return new ResponseEntity<Object>(builder, HttpStatus.OK);
 		} catch (Exception e) {
