@@ -55,7 +55,7 @@ public class User implements Serializable {
 	@JsonIgnoreProperties("users")
 	private List<Group> groups = new ArrayList<Group>();
 	@OneToMany(mappedBy = "postedBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnore
+	@JsonIgnoreProperties("user")
 	private List<Post> posts;
 	@OneToMany(mappedBy = "commentBy", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JsonIgnore

@@ -39,6 +39,15 @@ public class UserServiceImpl {
 		if (StringUtils.isNotBlank(filter.getName())) {
 			builder.append("join u.roles r ");
 		}
+		if (StringUtils.isNotBlank(filter.getNameGroup())) {
+			builder.append("join u.groups g ");
+		}
+		if (StringUtils.isNotBlank(filter.getProductName())) {
+			builder.append("join u.posts p join p.product pd ");
+		}
+		if (StringUtils.isNotBlank(filter.getNameColor())) {
+			builder.append("join u.posts p join p.product pd join pd.sizes s join s.colors c ");
+		}
 		builder.append(" WHERE 1=1 ");
 		if (StringUtils.isNotBlank(filter.getUserName())) {
 			builder.append(" AND u.userName = '" + filter.getUserName() + "'");
@@ -50,6 +59,18 @@ public class UserServiceImpl {
 
 			builder.append(" AND r.name = '" + filter.getName() + "' ");
 		}
+		if (StringUtils.isNotBlank(filter.getNameGroup())) {
+
+			builder.append(" AND g.name = '" + filter.getNameGroup() + "' ");
+		}
+		if (StringUtils.isNotBlank(filter.getProductName())) {
+
+			builder.append(" AND pd.name = '" + filter.getProductName() + "' ");
+		}
+		if (StringUtils.isNotBlank(filter.getNameColor())) {
+
+			builder.append(" AND c.nameColor = '" + filter.getNameColor() + "' ");
+		}
 		if (StringUtils.isNotBlank(filter.getFullName())) {
 			builder.append(" AND LOWER(u.email) like '%" + filter.getFullName().toLowerCase() + "%' ");
 		}
@@ -59,6 +80,7 @@ public class UserServiceImpl {
 			builder.append(SORT + "u." + filter.getSortName() + "");
 			builder.append(filter.getSort() ? " ASC" : " DESC");
 		}
+		
 		return entityManager.createQuery(builder.toString(), User.class).getResultList();
 	}
 
