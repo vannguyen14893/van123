@@ -15,8 +15,8 @@ import javax.persistence.ManyToMany;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Role implements Serializable{
-	
+public class Role implements Serializable {
+
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,10 +25,14 @@ public class Role implements Serializable{
 	private String name;
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("roles")
-	private List<User> users=new ArrayList<User>();
+	private List<User> users = new ArrayList<User>();
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	@JsonIgnoreProperties("roles")
-	private List<Permission> permissions=new ArrayList<Permission>();
+	private List<Permission> permissions = new ArrayList<Permission>();
+	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
+	@JsonIgnoreProperties("roles")
+	private List<Menu> menus = new ArrayList<Menu>();
+
 	public Integer getRoleId() {
 		return roleId;
 	}
@@ -61,6 +65,14 @@ public class Role implements Serializable{
 		this.permissions = permissions;
 	}
 
+	public List<Menu> getMenus() {
+		return menus;
+	}
+
+	public void setMenus(List<Menu> menus) {
+		this.menus = menus;
+	}
+
 	public Role(Integer roleId, String name) {
 		super();
 		this.roleId = roleId;
@@ -70,7 +82,5 @@ public class Role implements Serializable{
 	public Role() {
 		super();
 	}
-	
-	
 
 }
