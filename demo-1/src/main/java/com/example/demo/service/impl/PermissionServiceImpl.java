@@ -54,6 +54,7 @@ public class PermissionServiceImpl {
 			for (Role role : roles) {
 				for (int i = 0; i < permission.getRoleId().length; i++) {
 					if (permission.getRoleId()[i] == role.getRoleId()) {
+						
 						permissionRepository.delete(permission2);
 						break;
 					} else {
