@@ -51,10 +51,16 @@ public class PostServiceImpl {
 		}
 	}
 
-	public void deletePost(Integer postId, Integer userId) {
-		Post post = postRepository.findById(postId).get();
-		if (post != null) {
-			postRepository.deleteById(postId);
+	public Boolean check(Integer userId,Integer postId) {
+		List<Post> posts = postRepository.findByUser_Posted_By(userId);
+		for (Post post : posts) {
+			if(!(post.getPostId()==postId)) {
+				continue;
+			}
+			//postRepository.deleteById(postId);
+			return true;
 		}
+		return false;
+
 	}
 }

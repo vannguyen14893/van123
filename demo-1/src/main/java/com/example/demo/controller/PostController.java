@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +41,11 @@ public class PostController {
 	}
 
 	@PostMapping(value = "/post/delete/{userId}")
-	public void deletePost(@PathVariable("userId") Integer userId, @RequestBody Post post) {
-		postServiceImpl.deletePost(userId, post.getPostId());
+	public ResponseEntity<String> deletePost(@PathVariable("userId") Integer userId, @RequestBody Post post) {
+		if(postServiceImpl.check(userId, post.getPostId())) {
+			return new ResponseEntity<String>("okkkkk",HttpStatus.OK);
+		}else {
+			return new ResponseEntity<String>("Noooooo",HttpStatus.OK);
+		}			
 	}
 }

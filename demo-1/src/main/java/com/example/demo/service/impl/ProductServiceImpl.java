@@ -16,18 +16,18 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.example.demo.entity.Color;
 import com.example.demo.entity.Product;
-import com.example.demo.entity.Role;
 import com.example.demo.entity.Size;
 import com.example.demo.repository.BrandRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ProductRepository;
-import com.example.demo.repository.SizeRepository;
 import com.example.demo.repository.SupplierRepository;
 import com.example.demo.repository.customer.ProductRepositoryCutomer;
 import com.example.demo.utils.Contans;
@@ -38,11 +38,8 @@ import com.example.demo.utils.FilterKeyword;
 public class ProductServiceImpl implements ProductRepositoryCutomer {
 	@PersistenceContext
 	private EntityManager entityManager;
-
 	@Autowired
 	private ProductRepository productRepository;
-	@Autowired
-	private SizeRepository sizeRepository;
 	@Autowired
 	private BrandRepository brandRepository;
 	@Autowired
@@ -50,17 +47,6 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 	@Autowired
 	private SupplierRepository supplierRepository;
 
-//	@Override
-//	public List<Product> getAll() {
-////		CriteriaBuilder criteria = entityManager.getCriteriaBuilder();
-////		CriteriaQuery<Product> query = criteria.createQuery(Product.class);
-////		Root<Product> root = query.from(Product.class);
-////		List<Predicate> predicates = new ArrayList<Predicate>();
-////		query.where(predicates.toArray(new Predicate[] {}));
-////		TypedQuery<Product> typedQuery = entityManager.createQuery(query.select(root));
-////		return typedQuery.getResultList();
-//		return productRepository.findAll(where);
-//	}
 	@Override
 	public List<Product> findProductsByName(FilterKeyword filterKeyword) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
@@ -162,7 +148,7 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 		}
 		return false;
 	}
-
+    
 	public boolean checkDate(Date startDate, Date endDate) {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat(Contans.FORMAT_DATE);

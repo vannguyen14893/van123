@@ -47,6 +47,7 @@ public class PermissionServiceImpl {
 
 	}
 
+	@SuppressWarnings("unused")
 	public void deletePermissonByRoleId(Permission permission) {
 		Permission permission2 = permissionRepository.getOne(permission.getId());
 		if (permission != null) {
