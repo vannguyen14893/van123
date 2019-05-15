@@ -27,9 +27,9 @@ public class RoleController {
 	@PostMapping(value = "/delete/role/{id}")
 	public ResponseEntity<String> delete(@PathVariable("id") Integer id,@RequestBody Role role) {
 		if(impl.check(id, role.getRoleId())) {
-			return new ResponseEntity<String>("okkkkk",HttpStatus.OK);
+			return new ResponseEntity<String>("",HttpStatus.OK);
 		}else {
-			return new ResponseEntity<String>("Noooooo",HttpStatus.OK);
+			return new ResponseEntity<String>("Noooooooooooooooooooo",HttpStatus.NOT_FOUND);
 		}			
 	}
 }
