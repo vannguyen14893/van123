@@ -24,12 +24,17 @@ public class RoleController {
 		return impl.fillAll(id);
 	}
 
+	@GetMapping(value = "/roles")
+	public List<Role> fillAll() {
+		return impl.getAll();
+	}
+
 	@PostMapping(value = "/delete/role/{id}")
-	public ResponseEntity<String> delete(@PathVariable("id") Integer id,@RequestBody Role role) {
-		if(impl.check(id, role.getRoleId())) {
-			return new ResponseEntity<String>("okkkkk",HttpStatus.OK);
-		}else {
-			return new ResponseEntity<String>("Noooooo",HttpStatus.OK);
-		}			
+	public ResponseEntity<String> delete(@PathVariable("id") Integer id, @RequestBody Role role) {
+		if (impl.check(id, role.getRoleId())) {
+			return new ResponseEntity<String>("okkkkk", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<String>("Noooooo", HttpStatus.OK);
+		}
 	}
 }

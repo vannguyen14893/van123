@@ -24,8 +24,4 @@ public class PermissionController {
 		permissionServiceImpl.editPermissionByRole(permission);
 	}
 
-	@PostMapping(value = "/permissions")
-	public void delete(@RequestBody Permission permission) {
-		permissionServiceImpl.deletePermissonByRoleId(permission);
-	}
 }

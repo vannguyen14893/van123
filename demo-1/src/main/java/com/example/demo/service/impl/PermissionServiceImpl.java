@@ -47,25 +47,4 @@ public class PermissionServiceImpl {
 
 	}
 
-	@SuppressWarnings("unused")
-	public void deletePermissonByRoleId(Permission permission) {
-		Permission permission2 = permissionRepository.getOne(permission.getId());
-		if (permission != null) {
-			List<Role> roles = permission2.getRoles();
-			for (Role role : roles) {
-				for (int i = 0; i < permission.getRoleId().length; i++) {
-					if (permission.getRoleId()[i] == role.getRoleId()) {
-						
-						permissionRepository.delete(permission2);
-						break;
-					} else {
-						System.out.println("khong duoc");
-						break;
-					}
-				}
-			}
-
-		}
-	}
-
 }

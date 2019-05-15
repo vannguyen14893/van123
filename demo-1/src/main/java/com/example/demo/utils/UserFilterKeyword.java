@@ -4,13 +4,16 @@ public class UserFilterKeyword {
 	public String userName;
 	private String sortName;
 	private Boolean sort;
-    private Integer status;
-    private String name;
-    private String fullName;
-    private String nameGroup;
-    private String productName;
-    private String nameColor;
-    private String sortProduct;
+	private Integer status;
+	private String name;
+	private String fullName;
+	private String nameGroup;
+	private String productName;
+	private String nameColor;
+	private String sortProduct;
+	private Integer page = 1;
+	private Integer pageSize = 5;
+    private Integer pageNumber;
 	public String getUserName() {
 		return userName;
 	}
@@ -91,6 +94,28 @@ public class UserFilterKeyword {
 		this.sortProduct = sortProduct;
 	}
 
-	
+	public Integer getPage() {
+		return page;
+	}
+
+	public void setPage(Integer page) {
+		this.page = page;
+	}
+
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public Integer getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(Integer pageNumber) {
+		this.pageNumber = pageNumber;
+	}
 
 }

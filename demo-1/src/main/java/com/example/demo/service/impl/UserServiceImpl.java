@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class UserServiceImpl {
 	public static final String LIST = "select u from User u ";
 	public static final String SORT = "ORDER BY ";
 
+	@SuppressWarnings("unchecked")
 	public List<User> fillAll(UserFilterKeyword filter) {
 		StringBuilder builder = new StringBuilder(LIST);
 		if (StringUtils.isNotBlank(filter.getName())) {
@@ -80,8 +82,21 @@ public class UserServiceImpl {
 			builder.append(SORT + "u." + filter.getSortName() + "");
 			builder.append(filter.getSort() ? " ASC" : " DESC");
 		}
-		
-		return entityManager.createQuery(builder.toString(), User.class).getResultList();
+		Query query = entityManager.createQuery(builder.toString(), User.class);
+		query.setFirstResult((filter.getPage() - 1) * filter.getPageSize());
+		query.setMaxResults(filter.getPageSize());
+		return query.getResultList();
+	}
+
+	@SuppressWarnings("unused")
+	public Long count() {
+		Query queryTotal = entityManager.createQuery("Select count(u.id) from User u");
+		Long countResult = (Long) queryTotal.getSingleResult();
+		UserFilterKeyword filter = new UserFilterKeyword();
+		int pageNumber = (int) ((countResult / filter.getPageSize()) + 1);
+		filter.setPageNumber(pageNumber);
+		System.out.println(filter.getPageNumber());
+		return countResult;
 	}
 
 	public List<User> getAll(Integer roleId) {
