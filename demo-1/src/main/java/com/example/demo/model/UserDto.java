@@ -1,34 +1,20 @@
 package com.example.demo.model;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
-import com.example.demo.entity.User;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 public class UserDto {
 	private Integer userId;
 	private String userName;
 	private String password;
-
 	private String fullName;
-
 	private String email;
-
 	private String phone;
-
 	private int status;
 	private String avatar;
-
-	private List<RoleDto> roles = new ArrayList<RoleDto>();
-	@JsonIgnoreProperties("userDtos")
-	private List<GroupDto> groups = new ArrayList<GroupDto>();
-
-	private List<PostDto> posts = new ArrayList<PostDto>();
-
-	private List<PostCommentDto> postComments = new ArrayList<PostCommentDto>();
-
+    private List<String>roleName;
+    private List<String>groupName;
+    private List<String>postMessage;
+    private List<String>postCommentMessage;
 	public Integer getUserId() {
 		return userId;
 	}
@@ -93,55 +79,40 @@ public class UserDto {
 		this.avatar = avatar;
 	}
 
-	public List<GroupDto> getGroups() {
-		return groups;
-	}
-
-	public void setGroups(List<GroupDto> groups) {
-		this.groups = groups;
-	}
-
-	public List<PostDto> getPosts() {
-		return posts;
-	}
-
-	public void setPosts(List<PostDto> posts) {
-		this.posts = posts;
-	}
-
-	public List<PostCommentDto> getPostComments() {
-		return postComments;
-	}
-
-	public void setPostComments(List<PostCommentDto> postComments) {
-		this.postComments = postComments;
-	}
-
-	public List<RoleDto> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<RoleDto> roles) {
-		this.roles = roles;
-	}
-
-	public UserDto(User user) {
-		this.userId = user.getUserId();
-		this.userName = user.getUserName();
-		this.password = user.getPassword();
-		this.fullName = user.getFullName();
-		this.email = user.getEmail();
-		this.phone = user.getPhone();
-		this.status = user.getStatus();
-		this.avatar = user.getAvatar();
-		this.groups = user.getGroups().stream().map(GroupDto::new).collect(Collectors.toList());
-		this.posts = user.getPosts().stream().map(PostDto::new).collect(Collectors.toList());
-		this.postComments = user.getPostComments().stream().map(PostCommentDto::new).collect(Collectors.toList());
-		this.roles = user.getRoles().stream().map(RoleDto::new).collect(Collectors.toList());
-	}
-
 	public UserDto() {
 		super();
 	}
 
+	public List<String> getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(List<String> roleName) {
+		this.roleName = roleName;
+	}
+
+	public List<String> getGroupName() {
+		return groupName;
+	}
+
+	public void setGroupName(List<String> groupName) {
+		this.groupName = groupName;
+	}
+
+	public List<String> getPostMessage() {
+		return postMessage;
+	}
+
+	public void setPostMessage(List<String> postMessage) {
+		this.postMessage = postMessage;
+	}
+
+	public List<String> getPostCommentMessage() {
+		return postCommentMessage;
+	}
+
+	public void setPostCommentMessage(List<String> postCommentMessage) {
+		this.postCommentMessage = postCommentMessage;
+	}
+	
 }

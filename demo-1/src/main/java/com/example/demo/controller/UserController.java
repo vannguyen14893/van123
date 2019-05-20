@@ -1,6 +1,10 @@
 package com.example.demo.controller;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -72,20 +76,45 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/upload")
-	public ResponseEntity<Object> upload(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
+	public ResponseEntity<Object> upload(@RequestParam("files") MultipartFile[] files) {
+		StringBuilder builder = new StringBuilder();
 		try {
-			StringBuilder builder = new StringBuilder();
 			for (MultipartFile file : files) {
-				String fileName = file.getOriginalFilename();
-				builder.append(fileName);
-				String path = request.getServletContext().getRealPath("") + Contans.UPLOAD_PATH + File.separator
-						+ builder;
-				Contans.saveFile(file.getInputStream(), path);
+				builder.append(file.getOriginalFilename() + ",");
+				File file1 = new File("D:" + builder);
+				FileOutputStream outputStream = new FileOutputStream(file1);
+				outputStream.write(file.getBytes());
+				outputStream.close();
 			}
-			return new ResponseEntity<Object>(builder, HttpStatus.OK);
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NO_CONTENT);
+			String[] split = builder.toString().split(",");
+			System.out.println(builder.toString());
+		
+			return new ResponseEntity<Object>(split, HttpStatus.OK);
+			
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+		return new ResponseEntity<Object>("", HttpStatus.NO_CONTENT);
 	}
+//	@PostMapping(value = "/upload")
+//	public ResponseEntity<Object> upload(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {
+//		try {
+//			StringBuilder builder = new StringBuilder();
+//			for (MultipartFile file : files) {
+//				String fileName = file.getOriginalFilename();
+//				builder.append(fileName);
+//				String path = request.getServletContext().getRealPath("") + Contans.UPLOAD_PATH + File.separator
+//						+ builder;
+//				Contans.saveFile(file.getInputStream(), path);
+//			}
+//			return new ResponseEntity<Object>(builder, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return new ResponseEntity<Object>(e.getMessage(), HttpStatus.NO_CONTENT);
+//		}
+//	}
 
 }

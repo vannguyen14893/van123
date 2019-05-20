@@ -62,7 +62,10 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 					: (cb.desc(root.get(filterKeyword.getKeyword()))));
 		}
 		if (StringUtils.isNotBlank(filterKeyword.getFileName())) {
-			predicates.add(cb.like(root.get("name"), "%" + filterKeyword.getFileName() + "%"));
+			predicates.add(cb.or(cb.like(root.get("name"), "%" + filterKeyword.getFileName() + "%"),
+					cb.like(root.get("description"), "%" + filterKeyword.getFileName() + "%"),
+					//cb.like(sizes.get("sizeName"), "%" + filterKeyword.getFileName() + "%"),
+					cb.like(root.get("total").as(String.class), "%" + filterKeyword.getFileName())));
 		}
 		if (StringUtils.isNotBlank(filterKeyword.getName())) {
 			predicates.add(cb.equal(root.get("name"), filterKeyword.getName()));
@@ -148,7 +151,7 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 		}
 		return false;
 	}
-    
+
 	public boolean checkDate(Date startDate, Date endDate) {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat(Contans.FORMAT_DATE);

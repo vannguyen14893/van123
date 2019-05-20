@@ -1,9 +1,6 @@
 package com.example.demo.model;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.example.demo.entity.Size;
 
@@ -12,7 +9,7 @@ public class SizeDto {
 
 	private String sizeName;
 	private Integer total;
-	private List<ColorDto> colorDtos = new ArrayList<ColorDto>();
+	private List<String> nameColors;
 
 	public Integer getId() {
 		return id;
@@ -38,19 +35,21 @@ public class SizeDto {
 		this.total = total;
 	}
 
-	public List<ColorDto> getColorDtos() {
-		return colorDtos;
+	
+
+	public List<String> getNameColors() {
+		return nameColors;
 	}
 
-	public void setColorDtos(List<ColorDto> colorDtos) {
-		this.colorDtos = colorDtos;
+	public void setNameColors(List<String> nameColors) {
+		this.nameColors = nameColors;
 	}
 
 	public SizeDto(Size size) {
 		this.id = size.getId();
 		this.sizeName = size.getSizeName();
 		this.total = size.getTotal();
-		this.colorDtos = size.getColors().stream().map(ColorDto::new).collect(Collectors.toList());
+		
 	}
 
 	public SizeDto() {

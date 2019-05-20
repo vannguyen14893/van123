@@ -1,5 +1,7 @@
 package com.example.demo.service.impl.dto;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,8 +22,24 @@ public class ProductServiceImplDto {
 
 	public List<ProductDto> getAll(FilterKeyword filterKeyword) {
 		List<Product> products = productServiceImpl.findProductsByName(filterKeyword);
-		List<ProductDto> employeeDtos = products.stream().map(ProductDto::new).collect(Collectors.toList());
-		return employeeDtos;
+		List<ProductDto> productDtos = products.stream().map(product -> {
+            ProductDto productDto=new ProductDto();
+            productDto.setId(product.getId());
+            productDto.setName(product.getName());
+            productDto.setPrice(product.getPrice());
+            productDto.setTotal(product.getTotal());
+            productDto.setStartDate(product.getStartDate());
+            productDto.setCreateDate(product.getCreateDate());
+            productDto.setEndDate(product.getEndDate());
+            List<String> sizes=new ArrayList<String>();
+            List<String> colors=new ArrayList<String>();   
+            product.getSizes().forEach(size->sizes.addAll(Arrays.asList(size.getSizeName())));
+            product.getSizes().forEach(size->size.getColors().forEach(color->colors.addAll(Arrays.asList(color.getNameColor()))));
+            sizes.addAll(colors);
+            productDto.setSizes(sizes);
+            return productDto;
+        }).collect(Collectors.toList());
+		return productDtos;
 
 	}
 }

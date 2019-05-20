@@ -24,13 +24,10 @@ public class Role implements Serializable {
 	private Integer roleId;
 	private String name;
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("roles")
 	private List<User> users = new ArrayList<User>();
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("roles")
 	private List<Permission> permissions = new ArrayList<Permission>();
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	@JsonIgnoreProperties("roles")
 	private List<Menu> menus = new ArrayList<Menu>();
 
 	public Integer getRoleId() {

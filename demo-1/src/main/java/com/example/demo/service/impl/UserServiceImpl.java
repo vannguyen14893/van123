@@ -1,5 +1,9 @@
 package com.example.demo.service.impl;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -12,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.Group;
 import com.example.demo.entity.Role;
@@ -74,7 +79,8 @@ public class UserServiceImpl {
 			builder.append(" AND c.nameColor = '" + filter.getNameColor() + "' ");
 		}
 		if (StringUtils.isNotBlank(filter.getFullName())) {
-			builder.append(" AND LOWER(u.email) like '%" + filter.getFullName().toLowerCase() + "%' ");
+			builder.append(" AND LOWER(u.email) like '%" + filter.getFullName().toLowerCase()
+					+"%' or cast(u.status AS string) like '%" + filter.getFullName().toLowerCase() + "%' ");
 		}
 		if (!StringUtils.isNotBlank(filter.getSortName())) {
 			builder.append(SORT + "u.userId");
@@ -113,6 +119,24 @@ public class UserServiceImpl {
 	}
 
 	public void addUserListRole(User user) {
+		List<MultipartFile> files = new ArrayList<MultipartFile>();
+		StringBuilder builder = new StringBuilder();
+		try {
+			for (MultipartFile file : files) {
+				file = user.getFile();
+				builder.append(file.getOriginalFilename());
+				File fileNew = new File("D:" + builder);
+				FileOutputStream outputStream = new FileOutputStream(fileNew);
+				outputStream.write(file.getBytes());
+				outputStream.close();
+			}
+			user.setAvatar(builder.toString());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		List<Role> roles = new ArrayList<Role>();
 		for (int i = 0; i < user.getRoleId().length; i++) {
 			roles.add(roleRepository.getOne(user.getRoleId()[i]));

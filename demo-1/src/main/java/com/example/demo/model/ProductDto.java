@@ -17,7 +17,7 @@ public class ProductDto {
     private Date createDate;
     private Date startDate;
 	private Date endDate;
-	private List<SizeDto> sizes=new ArrayList<SizeDto>();
+	private List<String> sizes;
 	public Integer getId() {
 		return id;
 	}
@@ -80,13 +80,13 @@ public class ProductDto {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
+	}	
 
-	public List<SizeDto> getSizes() {
+	public List<String> getSizes() {
 		return sizes;
 	}
 
-	public void setSizes(List<SizeDto> sizes) {
+	public void setSizes(List<String> sizes) {
 		this.sizes = sizes;
 	}
 
@@ -99,7 +99,7 @@ public class ProductDto {
 		this.createDate = product.getCreateDate();
 		this.startDate = product.getStartDate();
 		this.endDate = product.getEndDate();
-		this.sizes = product.getSizes().stream().map(SizeDto::new).collect(Collectors.toList());
+		
 	}
 
 	public ProductDto() {

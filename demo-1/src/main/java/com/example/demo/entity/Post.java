@@ -31,17 +31,14 @@ public class Post implements Serializable {
 	private String message;
 	@ManyToOne
 	@JoinColumn(name="posted_by")	
-	@JsonIgnoreProperties("posts")
 	private User postedBy;
 	@Column(name = "post_date")
 	@Temporal(TemporalType.DATE)
 	private Date postedDate;
 	@OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonIgnoreProperties("post")
 	private List<PostComment> postComments=new ArrayList<PostComment>();
 	@ManyToOne
 	@JoinColumn(name="product_id")	
-	@JsonIgnoreProperties("posts")
 	private Product product;
 	public Integer getPostId() {
 		return postId;

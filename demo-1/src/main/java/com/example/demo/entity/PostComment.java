@@ -13,8 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @Entity
 public class PostComment implements Serializable {
 
@@ -23,18 +21,15 @@ public class PostComment implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "comment_id")
 	private Integer commentId;
-	
 	private String message;
 	@Column(name = "comment_date")
 	@Temporal(TemporalType.DATE)
 	private Date commentDate;
 	@ManyToOne
 	@JoinColumn(name = "comment_by")
-	@JsonIgnoreProperties("postComments")
 	private User commentBy;
 	@ManyToOne
 	@JoinColumn(name = "post_id")
-	@JsonIgnoreProperties("postComments")
 	private Post post;
 
 	public Integer getCommentId() {
