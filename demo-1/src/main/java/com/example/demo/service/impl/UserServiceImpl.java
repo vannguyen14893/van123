@@ -24,6 +24,7 @@ import com.example.demo.entity.User;
 import com.example.demo.repository.GroupRepository;
 import com.example.demo.repository.RoleRepository;
 import com.example.demo.repository.UserRepository;
+import com.example.demo.utils.ResourceNotFoundException;
 import com.example.demo.utils.UserFilterKeyword;
 
 @Service
@@ -80,7 +81,7 @@ public class UserServiceImpl {
 		}
 		if (StringUtils.isNotBlank(filter.getFullName())) {
 			builder.append(" AND LOWER(u.email) like '%" + filter.getFullName().toLowerCase()
-					+"%' or cast(u.status AS string) like '%" + filter.getFullName().toLowerCase() + "%' ");
+					+ "%' or cast(u.status AS string) like '%" + filter.getFullName().toLowerCase() + "%' ");
 		}
 		if (!StringUtils.isNotBlank(filter.getSortName())) {
 			builder.append(SORT + "u.userId");
@@ -119,23 +120,23 @@ public class UserServiceImpl {
 	}
 
 	public void addUserListRole(User user) {
-		List<MultipartFile> files = new ArrayList<MultipartFile>();
-		StringBuilder builder = new StringBuilder();
-		try {
-			for (MultipartFile file : files) {
-				file = user.getFile();
-				builder.append(file.getOriginalFilename());
-				File fileNew = new File("D:" + builder);
-				FileOutputStream outputStream = new FileOutputStream(fileNew);
-				outputStream.write(file.getBytes());
-				outputStream.close();
-			}
-			user.setAvatar(builder.toString());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		List<MultipartFile> files = new ArrayList<MultipartFile>();
+//		StringBuilder builder = new StringBuilder();
+//		try {
+//			for (MultipartFile file : files) {
+//				file = user.getFile();
+//				builder.append(file.getOriginalFilename());
+//				File fileNew = new File("D:" + builder);
+//				FileOutputStream outputStream = new FileOutputStream(fileNew);
+//				outputStream.write(file.getBytes());
+//				outputStream.close();
+//			}
+//			user.setAvatar(builder.toString());
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 
 		List<Role> roles = new ArrayList<Role>();
 		for (int i = 0; i < user.getRoleId().length; i++) {
@@ -198,5 +199,14 @@ public class UserServiceImpl {
 			user.setGroups(groups);
 			userRepository.save(user);
 		}
+	}
+
+	public void deleteUser(Integer userId) {
+		User user = userRepository.getOne(userId);
+		if (user != null) {
+			user.setStatus(1);
+			userRepository.save(user);
+		}
+		
 	}
 }

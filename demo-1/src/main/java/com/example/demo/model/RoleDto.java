@@ -47,7 +47,7 @@ public class RoleDto {
 	public RoleDto(Role role) {
 		this.roleId = role.getRoleId();
 		this.name = role.getName();
-		this.menus = role.getMenus().stream().map(MenuDto::new).collect(Collectors.toList());
+		//this.menus = role.getMenus().stream().map(MenuDto::new).collect(Collectors.toList());
 		this.permissions = role.getPermissions().stream().map(PermissionDto::new).collect(Collectors.toList());
 	}
 

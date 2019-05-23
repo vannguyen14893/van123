@@ -24,12 +24,8 @@ public class Role implements Serializable {
 	private Integer roleId;
 	private String name;
 	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	private List<User> users = new ArrayList<User>();
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
 	private List<Permission> permissions = new ArrayList<Permission>();
-	@ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-	private List<Menu> menus = new ArrayList<Menu>();
-
+	
 	public Integer getRoleId() {
 		return roleId;
 	}
@@ -46,28 +42,12 @@ public class Role implements Serializable {
 		this.name = name;
 	}
 
-	public List<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
-
 	public List<Permission> getPermissions() {
 		return permissions;
 	}
 
 	public void setPermissions(List<Permission> permissions) {
 		this.permissions = permissions;
-	}
-
-	public List<Menu> getMenus() {
-		return menus;
-	}
-
-	public void setMenus(List<Menu> menus) {
-		this.menus = menus;
 	}
 
 	public Role(Integer roleId, String name) {

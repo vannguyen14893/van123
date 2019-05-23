@@ -24,12 +24,21 @@ public class MenuServiceImpl {
 		return menuRepository.findByParentId(parentId);
 	}
 
+	public Menu getMenuByIdAndParentId(Integer id, Integer parentId) {
+		return menuRepository.findByIdAndParentId(id, parentId);
+	}
+
+	public Menu getMenuByIdAndParentIdAndContentMenu_ParentId(Integer id, Integer parentId, Integer parentId2) {
+		return menuRepository.findByIdAndParentIdAndContentMenus_ParentId(id, parentId, parentId2);
+	}
+
 	public void addMenuRole(Menu menu) {
 		List<Role> roles = new ArrayList<Role>();
 		for (int i = 0; i < menu.getRoleId().length; i++) {
 			roles.add(roleRepository.getOne(menu.getRoleId()[i]));
 		}
 		menu.setRoles(roles);
+		menu.setParentId(0);
 		menuRepository.save(menu);
 	}
 
@@ -72,5 +81,25 @@ public class MenuServiceImpl {
 			menu2.setRoles(roles);
 		}
 		menuRepository.save(menu2);
+	}
+
+	public void addMenuChild(Integer id, Menu menu) {
+		Menu menu2 = menuRepository.getOne(id);
+		if (menu2 != null) {
+			menu.setParentId(menu2.getId());
+			menuRepository.save(menu);
+		}
+	}
+
+	public void editMenuChild(Integer id, Integer parentId, Menu menu) {
+		Menu menu2 = menuRepository.findByIdAndParentId(id, parentId);
+		if (menu2 != null) {
+			menu2.setId(menu.getId());
+			menu2.setLink(menu.getLink());
+			menu2.setName(menu.getName());
+			//List<Menu> menus=menuRepository.findByParentId(0);
+			menu2.setParentId(menu.getParentId());	
+			menuRepository.save(menu);
+		}
 	}
 }

@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductRepositoryCutomer {
 		if (StringUtils.isNotBlank(filterKeyword.getFileName())) {
 			predicates.add(cb.or(cb.like(root.get("name"), "%" + filterKeyword.getFileName() + "%"),
 					cb.like(root.get("description"), "%" + filterKeyword.getFileName() + "%"),
-					//cb.like(sizes.get("sizeName"), "%" + filterKeyword.getFileName() + "%"),
+					cb.like(sizes.get("sizeName"), "%" + filterKeyword.getFileName() + "%"),
 					cb.like(root.get("total").as(String.class), "%" + filterKeyword.getFileName())));
 		}
 		if (StringUtils.isNotBlank(filterKeyword.getName())) {

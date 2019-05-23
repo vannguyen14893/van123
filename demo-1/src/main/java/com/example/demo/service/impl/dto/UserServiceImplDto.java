@@ -30,6 +30,7 @@ public class UserServiceImplDto {
             userDto.setFullName(user.getFullName());
             userDto.setUserName(user.getUserName());
             userDto.setAvatar(user.getAvatar());
+            userDto.setPhone(user.getPhone());
             userDto.setStatus(user.getStatus());
             userDto.setPassword(user.getPassword());
             List<String> roleName=new ArrayList<String>();

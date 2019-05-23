@@ -1,7 +1,5 @@
 package com.example.demo.model;
 
-import javax.persistence.Column;
-
 import com.example.demo.entity.Menu;
 
 public class MenuDto {

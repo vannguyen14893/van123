@@ -4,14 +4,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.example.demo.entity.User;
 import com.example.demo.model.UserDto;
 import com.example.demo.service.impl.UserServiceImpl;
@@ -27,6 +26,7 @@ import com.example.demo.utils.Contans;
 import com.example.demo.utils.UserFilterKeyword;
 
 @RestController
+@CrossOrigin(value = "http://localhost:4200", maxAge = 3600)
 public class UserController {
 
 	@Autowired
@@ -74,7 +74,10 @@ public class UserController {
 	public Long count() {
 		return userServiceImpl.count();
 	}
-
+	@GetMapping(value = "/delete/user/{userId}")
+	public void delete(@PathVariable("userId") Integer userId) {
+		 userServiceImpl.deleteUser(userId);
+	}
 	@PostMapping(value = "/upload")
 	public ResponseEntity<Object> upload(@RequestParam("files") MultipartFile[] files) {
 		StringBuilder builder = new StringBuilder();
