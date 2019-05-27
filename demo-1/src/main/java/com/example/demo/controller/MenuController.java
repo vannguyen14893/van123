@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,10 @@ public class MenuController {
 	public List<Menu> get(@RequestBody Menu menu) {
 		return impl.findByParentId(menu.getParentId());
 	}
-
+	@GetMapping(value = "/get-menu/{roleId}")
+	public List<Menu> get(@PathVariable("roleId") Integer roleId) {
+		return impl.findByParentIdAndRoleId(roleId);
+	}
 	@PostMapping(value = "/get-menu")
 	public Menu getMenuByIdAndParentId(@RequestBody Menu menu) {
 		return impl.getMenuByIdAndParentId(menu.getId(), menu.getParentId());

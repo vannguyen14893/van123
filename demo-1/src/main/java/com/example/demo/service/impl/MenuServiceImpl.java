@@ -20,6 +20,11 @@ public class MenuServiceImpl {
 	@Autowired
 	private RoleRepository roleRepository;
 
+	public List<Menu> findByParentIdAndRoleId(Integer roleId) {
+		
+		return menuRepository.findByRoles_RoleId( roleId);
+	}
+
 	public List<Menu> findByParentId(Integer parentId) {
 		return menuRepository.findByParentId(parentId);
 	}
@@ -97,9 +102,9 @@ public class MenuServiceImpl {
 			menu2.setId(menu.getId());
 			menu2.setLink(menu.getLink());
 			menu2.setName(menu.getName());
-			//List<Menu> menus=menuRepository.findByParentId(0);
-			menu2.setParentId(menu.getParentId());	
+			menu2.setParentId(menu.getParentId());
 			menuRepository.save(menu);
 		}
 	}
+
 }

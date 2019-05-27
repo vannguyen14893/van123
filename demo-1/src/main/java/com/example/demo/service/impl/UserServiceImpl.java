@@ -97,7 +97,7 @@ public class UserServiceImpl {
 
 	@SuppressWarnings("unused")
 	public Long count() {
-		Query queryTotal = entityManager.createQuery("Select count(u.id) from User u");
+		Query queryTotal = entityManager.createQuery("Select count(u.userId) from User u");
 		Long countResult = (Long) queryTotal.getSingleResult();
 		UserFilterKeyword filter = new UserFilterKeyword();
 		int pageNumber = (int) ((countResult / filter.getPageSize()) + 1);
@@ -116,6 +116,23 @@ public class UserServiceImpl {
 
 	public void addUser(User user) {
 		user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
+		List<MultipartFile> files = new ArrayList<MultipartFile>();
+		StringBuilder builder = new StringBuilder();
+		try {
+			for (MultipartFile file : files) {
+				file = user.getFile();
+				builder.append(file.getOriginalFilename());
+				File fileNew = new File("D:" + builder);
+				FileOutputStream outputStream = new FileOutputStream(fileNew);
+				outputStream.write(file.getBytes());
+				outputStream.close();
+			}
+			user.setAvatar(builder.toString());
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		userRepository.save(user);
 	}
 
@@ -204,7 +221,12 @@ public class UserServiceImpl {
 	public void deleteUser(Integer userId) {
 		User user = userRepository.getOne(userId);
 		if (user != null) {
-			user.setStatus(1);
+			if(user.getStatus()==0) {
+				user.setStatus(1);
+			}else {
+				user.setStatus(0);
+			}
+			
 			userRepository.save(user);
 		}
 		

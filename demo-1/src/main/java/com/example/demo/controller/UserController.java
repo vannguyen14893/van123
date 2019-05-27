@@ -74,10 +74,13 @@ public class UserController {
 	public Long count() {
 		return userServiceImpl.count();
 	}
+
 	@GetMapping(value = "/delete/user/{userId}")
-	public void delete(@PathVariable("userId") Integer userId) {
-		 userServiceImpl.deleteUser(userId);
+	public String delete(@PathVariable("userId") Integer userId) {
+		userServiceImpl.deleteUser(userId);
+		return "Xóa Thành Công";
 	}
+
 	@PostMapping(value = "/upload")
 	public ResponseEntity<Object> upload(@RequestParam("files") MultipartFile[] files) {
 		StringBuilder builder = new StringBuilder();
@@ -91,9 +94,8 @@ public class UserController {
 			}
 			String[] split = builder.toString().split(",");
 			System.out.println(builder.toString());
-		
+
 			return new ResponseEntity<Object>(split, HttpStatus.OK);
-			
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
