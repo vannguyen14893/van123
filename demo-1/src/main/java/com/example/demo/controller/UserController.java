@@ -82,20 +82,15 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/upload")
-	public ResponseEntity<Object> upload(@RequestParam("files") MultipartFile[] files) {
+	public ResponseEntity<String> upload(@RequestParam(value="file",required = false) MultipartFile file) {
 		StringBuilder builder = new StringBuilder();
-		try {
-			for (MultipartFile file : files) {
-				builder.append(file.getOriginalFilename() + ",");
-				File file1 = new File("D:" + builder);
+		try {		
+				builder.append(file.getOriginalFilename());
+				File file1 = new File("D://upload/" + builder);
 				FileOutputStream outputStream = new FileOutputStream(file1);
 				outputStream.write(file.getBytes());
-				outputStream.close();
-			}
-			String[] split = builder.toString().split(",");
-			System.out.println(builder.toString());
-
-			return new ResponseEntity<Object>(split, HttpStatus.OK);
+				outputStream.close();						
+			return new ResponseEntity<String>(builder.toString(), HttpStatus.OK);
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -103,7 +98,7 @@ public class UserController {
 			e.printStackTrace();
 		}
 
-		return new ResponseEntity<Object>("", HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>("", HttpStatus.OK);
 	}
 //	@PostMapping(value = "/upload")
 //	public ResponseEntity<Object> upload(@RequestParam("files") MultipartFile[] files, HttpServletRequest request) {

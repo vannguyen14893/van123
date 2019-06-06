@@ -116,23 +116,6 @@ public class UserServiceImpl {
 
 	public void addUser(User user) {
 		user.setRoles(Arrays.asList(roleRepository.findByName("ROLE_USER")));
-		List<MultipartFile> files = new ArrayList<MultipartFile>();
-		StringBuilder builder = new StringBuilder();
-		try {
-			for (MultipartFile file : files) {
-				file = user.getFile();
-				builder.append(file.getOriginalFilename());
-				File fileNew = new File("D:" + builder);
-				FileOutputStream outputStream = new FileOutputStream(fileNew);
-				outputStream.write(file.getBytes());
-				outputStream.close();
-			}
-			user.setAvatar(builder.toString());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		userRepository.save(user);
 	}
 
