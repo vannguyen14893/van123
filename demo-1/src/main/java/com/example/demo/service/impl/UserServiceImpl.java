@@ -4,10 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -120,24 +123,6 @@ public class UserServiceImpl {
 	}
 
 	public void addUserListRole(User user) {
-//		List<MultipartFile> files = new ArrayList<MultipartFile>();
-//		StringBuilder builder = new StringBuilder();
-//		try {
-//			for (MultipartFile file : files) {
-//				file = user.getFile();
-//				builder.append(file.getOriginalFilename());
-//				File fileNew = new File("D:" + builder);
-//				FileOutputStream outputStream = new FileOutputStream(fileNew);
-//				outputStream.write(file.getBytes());
-//				outputStream.close();
-//			}
-//			user.setAvatar(builder.toString());
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-
 		List<Role> roles = new ArrayList<Role>();
 		for (int i = 0; i < user.getRoleId().length; i++) {
 			roles.add(roleRepository.getOne(user.getRoleId()[i]));
@@ -204,14 +189,15 @@ public class UserServiceImpl {
 	public void deleteUser(Integer userId) {
 		User user = userRepository.getOne(userId);
 		if (user != null) {
-			if(user.getStatus()==0) {
+			if (user.getStatus() == 0) {
 				user.setStatus(1);
-			}else {
+			} else {
 				user.setStatus(0);
 			}
-			
+
 			userRepository.save(user);
 		}
-		
+
 	}
+	
 }
